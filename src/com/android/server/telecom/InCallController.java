@@ -762,12 +762,16 @@ public final class InCallController extends CallsManagerListenerBase {
             Settings.System.VIBRATE_ON_CONNECT, 0, UserHandle.USER_CURRENT) == 1;
         boolean vibrateOnDisconnect = Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.VIBRATE_ON_DISCONNECT, 0, UserHandle.USER_CURRENT) == 1;
+	int vibrateOnConnectTime = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.VIBRATE_ON_CONNECT_TIME, 0, UserHandle.USER_CURRENT);
+	int vibrateOnDisconnectTime = Settings.System.getIntForUser(mContext.getContentResolver(),
+            Settings.System.VIBRATE_ON_DISCONNECT_TIME, 0, UserHandle.USER_CURRENT);
 
         if (oldState == CallState.DIALING && newState == CallState.ACTIVE && vibrateOnConnect) {
-            vibrate(100, 200, 0);
+            vibrate(vibrateOnConnectTime,100, 0);
         } else if (oldState == CallState.ACTIVE && newState == CallState.DISCONNECTED
                 && vibrateOnDisconnect) {
-            vibrate(50, 100, 50);
+            vibrate(vibrateOnDisconnectTime,50, 0);
         }
 
         updateCall(call);
